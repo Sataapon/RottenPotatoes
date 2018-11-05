@@ -56,3 +56,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # use Haml for templates
 gem 'haml'
+
+# use omniauth-twitter for Twitter authentication
+gem 'omniauth-twitter'
