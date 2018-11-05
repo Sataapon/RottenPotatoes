@@ -13,4 +13,8 @@ class SessionsController < ApplicationController
         flash[:notice] = 'Logged out successfully.'
         redirect_to movies_path
     end
+    def failure
+        flash[:notice] = "User don't accept authenticate"
+        redirect_to movies_path
+    end
 end
