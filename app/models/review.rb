@@ -1,4 +1,10 @@
 class Review < ApplicationRecord
     belongs_to :movie
     belongs_to :moviegoer
+    
+    # review is valid only if it's associated with a movie:
+    validates :movie_id, :presnece => true
+    # can ALSO require that the referenced movie itself be valid
+    # in order for the review to be valid:
+    validates_associated :movie
 end
