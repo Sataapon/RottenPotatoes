@@ -1,0 +1,8 @@
+%h1 Search TMDb
+
+- @movies.each do |movie|
+  %h3 #{movie.title}
+  = image_tag "https://image.tmdb.org/t/p/w500/#{movie.poster_path}"
+  %br
+  = form_tag "/movies/add_tmdb/#{movie.id}", :method => :post do
+    = submit_tag 'Save changes'

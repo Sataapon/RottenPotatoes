@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-    skip_before_action :require_user, only: [:index, :show]
+    skip_before_action :require_user, only: [:index, :show, :search_tmdb]
     
     def index
         @movies = Movie.all
@@ -46,7 +46,20 @@ class MoviesController < ApplicationController
     end
     
     def search_tmdb
-        @movies = Tmdb::Movie.find(params[:search_terms])
+        if params[:search_terms] != ""
+            @movies = Tmdb::Movie.find(params[:search_terms])
+        else
+            flash[:warning] = "Can't search with empty"
+            redirect_to movies_path
+        end
+    end
+    
+    def add_tmdb
+        if params[:id] != nil
+            @movie = Tmdb::Movie.detail(params[:id])
+            Movie.create!(:title => @movie["title"], :rating => @movie["vote_average"], :release_date => @movie["release_date"])
+            redirect_to movies_path
+        end
     end
     
     private
