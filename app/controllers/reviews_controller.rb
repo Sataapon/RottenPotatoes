@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
-    before_filter :has_moviegoer_and_movie, :only => [:new, :create]
+    before_action :has_moviegoer_and_movie, :only => [:new, :create]
+    
     protected
     def has_moviegoer_and_movie
         unless @current_user
@@ -11,6 +12,7 @@ class ReviewsController < ApplicationController
             redirect_to movies_path
         end
     end
+    
     public
     def new
         @review = @movie.reviews.build
@@ -18,9 +20,14 @@ class ReviewsController < ApplicationController
     def create
         # since moviegoer_id is a protected attribute that won't get
         # assigned by the mass-assignment from params[:review], we set it
-        # by using the << method on the association. We could also
+        # by using the << method on the association.  We could also
         # set it manually with review.moviegoer = @current_user.
-        @current_user.reviews << @movie.reviews.build(params[:review])
+        @current_user.reviews << @movie.reviews.build(review_params)
         redirect_to movie_path(@movie)
+    end
+    
+    private
+    def review_params
+        params.require(:review).permit(:potatoes)
     end
 end
