@@ -55,11 +55,9 @@ class MoviesController < ApplicationController
     end
     
     def add_tmdb
-        if params[:id] != nil
-            @movie = Tmdb::Movie.detail(params[:id])
-            Movie.create!(:title => @movie["title"], :rating => @movie["vote_average"], :release_date => @movie["release_date"])
-            redirect_to movies_path
-        end
+        @movie = Tmdb::Movie.detail(params[:id])
+        Movie.create(:title => @movie["title"], :rating => @movie["vote_average"], :release_date => @movie["release_date"])
+        redirect_to movies_path
     end
     
     private
